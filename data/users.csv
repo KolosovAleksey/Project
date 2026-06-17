@@ -1,0 +1,11 @@
+id,full_name,email,role,password
+1,Администратор Портала,admin@events.ru,admin,Admin#2026
+2,Организатор Мероприятий,organizer@events.ru,admin,Org#3000
+3,Антонов Кирилл,k.antonov@events.ru,user,User#3001
+4,Борисова Юлия,y.borisova@events.ru,user,User#3002
+5,Власов Денис,d.vlasov@events.ru,user,User#3003
+6,Гаврилова Алина,a.gavrilova@events.ru,user,User#3004
+7,Дмитриев Олег,o.dmitriev@events.ru,user,User#3005
+8,Егорова Ксения,k.egorova@events.ru,user,User#3006
+9,Жуков Андрей,a.zhukov@events.ru,user,User#3007
+10,Зорина Виктория,v.zorina@events.ru,user,User#3008

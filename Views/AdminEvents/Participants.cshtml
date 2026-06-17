@@ -1,0 +1,28 @@
+@model ParticipantsViewModel
+@{
+    ViewData["Title"] = $"Участники мероприятия \"{Model.EventTitle}\"";
+}
+<h1>Участники: @Model.EventTitle</h1>
+<p><strong>Всего записано:</strong> @Model.Participants.Count()</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Дата записи</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Participants)
+        {
+            <tr>
+                <td>@p.FullName</td>
+                <td>@p.Email</td>
+                <td>@p.RegisteredAt.ToString("g")</td>
+                <td>@p.RegistrationStatus</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
