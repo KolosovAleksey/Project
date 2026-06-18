@@ -1,0 +1,53 @@
+@model EventCreateEditViewModel
+@{
+    ViewData["Title"] = "Создание мероприятия";
+}
+<h1>Создание мероприятия</h1>
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Категория</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="VenueId" class="form-label">Площадка</label>
+        <select asp-for="VenueId" asp-items="ViewBag.Venues" class="form-select"></select>
+        <span asp-validation-for="VenueId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="StartDateTime" class="form-label"></label>
+        <input asp-for="StartDateTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="StartDateTime" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="EndDateTime" class="form-label"></label>
+        <input asp-for="EndDateTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="EndDateTime" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Capacity" class="form-label"></label>
+        <input asp-for="Capacity" class="form-control" />
+        <span asp-validation-for="Capacity" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<EventStatus>()" class="form-select"></select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

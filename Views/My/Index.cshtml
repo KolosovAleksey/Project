@@ -1,0 +1,64 @@
+@model MyEventsViewModel
+@{
+    ViewData["Title"] = "Мои мероприятия";
+}
+<h1>Мои мероприятия</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model.Registrations.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Мероприятие</th>
+                <th>Дата</th>
+                <th>Статус записи</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reg in Model.Registrations)
+            {
+                <tr>
+                    <td><a asp-controller="Events" asp-action="Details" asp-route-id="@reg.EventId">@reg.EventTitle</a></td>
+                    <td>@reg.EventStart.ToString("g")</td>
+                    <td>
+                        @if (reg.Status == "confirmed")
+                        {
+                            <span class="badge bg-success">Подтверждена</span>
+                        }
+                        else if (reg.Status == "cancelled")
+                        {
+                            <span class="badge bg-secondary">Отменена</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-info">@reg.Status</span>
+                        }
+                    </td>
+                    <td>
+                        @if (reg.Status == "confirmed" && reg.EventStatus != "completed")
+                        {
+                            <form asp-controller="My" asp-action="Cancel" method="post">
+                                <input type="hidden" name="registrationId" value="@reg.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Отменить запись?');">Отменить</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Вы ещё не записаны ни на одно мероприятие.</p>
+}

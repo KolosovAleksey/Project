@@ -1,0 +1,62 @@
+@model EventsIndexViewModel
+@{
+    ViewData["Title"] = "Каталог мероприятий";
+}
+<h1>Каталог мероприятий</h1>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label for="searchTerm" class="form-label">Поиск</label>
+        <input type="text" id="searchTerm" name="searchTerm" class="form-control" value="@Model.SearchTerm" placeholder="Название или описание" />
+    </div>
+    <div class="col-md-3">
+        <label for="categoryId" class="form-label">Категория</label>
+        <select id="categoryId" name="categoryId" class="form-select" asp-items="ViewBag.Categories">
+            <option value="">Все категории</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="status" class="form-label">Статус</label>
+<select id="status" name="status" class="form-select">
+    <option value="">Все статусы</option>
+    <option value="announced">announced</option>
+    <option value="ongoing">ongoing</option>
+    <option value="completed">completed</option>
+</select>
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Применить</button>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">Сбросить</a>
+    </div>
+</form>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @foreach (var ev in Model.Events)
+    {
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@ev.Title</h5>
+                    <p class="card-text">
+                        <span class="badge bg-secondary">@ev.CategoryName</span>
+                        <span class="badge @(ev.Status == "completed" ? "bg-danger" : ev.Status == "ongoing" ? "bg-success" : "bg-warning")">
+                            @ev.Status
+                        </span>
+                    </p>
+                    <p><strong>Место:</strong> @ev.VenueName</p>
+                    <p><strong>Дата:</strong> @ev.StartDateTime.ToString("g") – @ev.EndDateTime.ToString("t")</p>
+                    <p><strong>Свободно мест:</strong> @ev.FreePlaces из @ev.Capacity</p>
+                    <p>@ev.Description</p>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Details" asp-route-id="@ev.Id" class="btn btn-outline-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Events.Any())
+{
+    <p class="text-center">Мероприятий не найдено.</p>
+}

@@ -1,0 +1,72 @@
+@model AdminEventsIndexViewModel
+@{
+    ViewData["Title"] = "Управление мероприятиями";
+}
+<h1>Управление мероприятиями</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Всего мероприятий</h5>
+                <p class="card-text display-4">@Model.TotalEvents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Всего записей</h5>
+                <p class="card-text display-4">@Model.TotalRegistrations</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">По категориям</h5>
+                @foreach (var item in Model.RegistrationsByCategory)
+                {
+                    <span class="badge bg-light text-dark me-1">@item.Key: @item.Value</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Создать новое</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Дата</th>
+            <th>Статус</th>
+            <th>Записей</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ev in Model.Events)
+        {
+            <tr>
+                <td>@ev.Title</td>
+                <td>@ev.CategoryName</td>
+                <td>@ev.StartDateTime.ToString("g")</td>
+                <td>@ev.Status</td>
+                <td>@ev.RegistrationsCount</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-sm btn-warning">Изменить</a>
+                    <a asp-action="Participants" asp-route-id="@ev.Id" class="btn btn-sm btn-info">Участники</a>
+                    <a asp-action="ExportCsv" asp-route-id="@ev.Id" class="btn btn-sm btn-secondary">CSV</a>
+                    <form asp-action="Delete" asp-route-id="@ev.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Удалить мероприятие?');">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
